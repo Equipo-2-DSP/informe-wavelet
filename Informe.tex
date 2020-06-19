@@ -189,13 +189,61 @@ a^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\psi _{j,k}(t)>=\s
 \begin{equation}
 d^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\phi _{j,k}(t)>=\sum_{p \in \mathbb Z}a^{j-1}_{p}\sqrt{2} b_{p-2k}
 \end{equation}
-Que se asemeja a la sumatoria de convolución
+Donde:
+	\begin{equation}
+	\sqrt{2} a_{p-2k}=<\phi _{j-1,p}(t),\phi _{j,k}(t)>
+	\end{equation}
+\begin{equation}
+	\sqrt{2} b_{p-2k}=<\phi _{j-1,p}(t),\psi _{j,k}(t)>
+	\end{equation}
+
+Se observa que estos coeficientes son productos internos de funciones ya conocidas, la funcion wavelet y su funcion de escala. Estos valores ya fueron calculados y se los asume como conocidos, por lo cual si los consideramos como los coeficientes de filtros podemos definir a $LoD=\{[LoD]_{n}\}_{n \in \mathbb{Z}}$ y a $HiD=\{[Hid]_{n}\}_{n \in \mathbb{Z}}$ como el filtro pasabajos y un filtro pasaaltos respectivamente.
+Por lo cual:
+\begin{equation}
+[LoD]_{n}=\sqrt{2}  a_{-n}
+\end{equation}
+\begin{equation}
+[HiD]_{n}=\sqrt{2}  b_{-n}
+\end{equation}
+Quedando entonces definidos nuestros coeficientes en un nivel j como:
+\begin{equation}
+\label{afinal}
+a^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p} [LoD]_{2k-p}
+\end{equation}
+\begin{equation}
+\label{dfinal}
+d^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p} [HiD]_{2k-p}
+\end{equation}
+
+Que presenta un aspecto muy similar a la suma de convulion entre el coeficiente del nivel anterior con el filtro correspondiente, para que esta sea la convolucion se introduce la operacion de submuestreo, definida como:
+\begin{equation}
+\label{dec}
+y=dec(x)\Leftrightarrow y_{n}=x_{2n} \forall n \in \mathbb Z
+\end{equation}
+
+usando las ecuaciones \ref{afinal}, \ref{dfinal}, \ref{dec} y la convolucion llegamos a:
+\begin{equation}
+a^{j}=dec(a^{j-1}\ast LoD)
+\end{equation}
+\begin{equation}
+d^{j}=dec(a^{j-1}\ast HiD)
+\end{equation}
+
+%agregar la imagen de los bloques 
+Lo que nos permite ver que cada señal se descompone en 2 señales, la de aproximacion y detalle de la mitad de la dimension de la señal original.
 
 
+Es posible demostrar que se puede realizar proceso inverso y reconstruir la señal aproximada, de la misma manera en que se descompuso, la suma de señales convolucionadas con filtros pasabajos y pasaaltos, matematicamente se ve como
+\begin{equation}
+a^{j-1}_{k}=\sum_{p \in \mathbb Z} a^{j}_{p}[LoR]_{k-2p}+\sum_{p \in \mathbb Z} d^{j}_{p}[HiR]_{k-2p}
+\end{equation}
+Donde LoR y HiR son los filtros pasabajo y pasaalto de reconstruccion.
+Como se dijo anteriormente la señales $a^{j} yd^{j}$ tiene dimension menor que la original que se desea reconstruir, por lo que es necesaria
+``rellenarlas" para que tengan la dimension correcta.
+%agregar imagen de bloque de reconstruccion.
+Se puede extender el desarrollo a 2 dimesiones, que permite descompener las imagenes en 4 señales diferentes que corresponenden a las señales de aproximacion y una descomposicion de señales de detalles, una para detalles horizontales, verticales y diagonales, se ve en la figura :
 
-
-
-
+%agregar la figura correspondiente.
 
 
 
