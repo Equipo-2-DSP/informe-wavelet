@@ -202,6 +202,91 @@ Que se asemeja a la sumatoria de convolución
 
 
 
+\section{Umbrales}
+Como se menciona anteriormente, es necesaria determinar parámetros llamados umbrales para realizar el filtrado de los coeficientes. Con el fin de 
+seguir la nomeclatura utilizada en la bibliografia aplicada, a este método se lo denominará umbralización. La umbralización tiene dos características importantes a definir,
+el tipo de umbralización y las distintas forma de calcular el valor del umbral. En la figura \ref{Umbral} se observa los tipos de umbralización hard y soft, y el valor del umbral esta 
+notado con $\tau$. El tipo de umbralización dura (hard) anula todos los coeficientes que estén en el rango $[-\tau,\tau]$ y no modifica el resto. Lo mismo cumple el umbralizado suave (soft) 
+con la diferencia que los coeficientes fuera de este rango se ven reducidos linealmente. El tipo hard reproduce de 
+mejor forma los picos y discontinuidades si se piensa una señal en una dimensión, o por ejemplo, los bordes si se piensa en imágenes. Por otro lado, el tipo soft genera 
+resultados mas suaves en la aproximación de la señal, lo que es satisfactorio si no se busca un resultado discontinuo. En las imágenes este método genera un efecto de 
+difuminado justamente para suavizar el resultado final. \\ %Ver redacción y mejorar imagen
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/Umbral}
+	\caption{Tipos de umbralización más utilizados}
+	\label{Umbral}
+\end{figure}
+
+Ahora, para el cálculo del umbral $\lambda$ existen distintos algoritmos de los cuales se desarrollan los siguientes:
+\subsubsection{VisuShrink}
+Este algoritmo, mas conocido como umbral universal se calcula con la siguiente ecuación:
+\begin{equation}
+    t_{univ}=\sigma_n \sqrt{2ln(n)}
+\end{equation}
+Donde $\sigma$ es la varianza del ruido y $n$ es la dimensión de la señal. Esta ecuación se deriva a partir de que es conocido que el máximo valor de una señal que
+siga una distribución gaussiana con media cero y varianza $\sigma^2$ ,$(x \thicksim N(0,\sigma^2))$ va ser menor que el valor $\sigma_n \sqrt{2log(n)}$ con una probabilidad 
+que tiene a uno cuando $n$ tiene a infinito. Por lo tanto, este umbral igualara a cero los coeficientes que presenten ruido puro con una alta probabilidad. La simpleza del 
+algoritmo lo hace de los mas utilizados, sin embargo al solo tener en cuenta las características del ruido y de la dimensión de la 
+imagen suele suavizar mucho la imagen. Esto se debe a que elimina muchos coeficientes de informacíon útil al intentar 
+eliminar el ruido presente.\\
+Antes de continuar con el siguiente umbral, cabe mencionar porque los umbrales depende de la dimensión de la señal. Es intuitivo que el umbral dependa 
+de la varianza del ruido pero no tan asi que dependa de la dimensión, esto se debe a que mientras mayor sea la dimensión aumenta la redundancia de la señal. Por lo tanto hay menos 
+información nueva (al aumentar la dimensión) que la información de base. Desde el punto de vista de wavelet, esto no genera que se aumenten 
+los coeficientes importantes. Por lo tanto existe una relación proporcional entre los coeficientes de ruido y la dimensión de la señal, lo que implica la necesidad
+de agregarlo al cálculo del umbral. 
+\subsubsection{LevelShrink}
+A raíz de que el algoritmo VisuShrink aplicada el mismo umbral a cada nivel de descomposición se introduce el método LevelShrink que depende 
+de la escala de cada nivel:
+\begin{equation}
+    t_{level}=\sigma_n \sqrt{2ln(n)} 2^{-(J-j)/2}
+\end{equation}
+Donde $J$ es el número total de niveles de descomposición y $j$ el nivel particular. Si bien esto genera un umbral que se adapta de mejor 
+manera, sigue sin tener en cuenta los detalles de la señal a analizar.
+\subsubsection{BayesShrink}
+Este umbral tiene como base minimizar la inferencia bayesiana y sus ecuaciones son:
+\begin{equation}
+     t_{bayes} = \left\{
+	       \begin{array}{ll}
+		 \sigma_n^2/\sigma_s      & \mathrm{si\ } \sigma_n^2 < \sigma_y^2 \\
+		 max(|y_i|) & \mathrm{si\ } \sigma_n^2 \geq \sigma_y^2 
+	       \end{array}
+	     \right.
+\end{equation}
+Donde $\sigma_n^2/\sigma_s$ es la varianza del ruido, $\sigma_y^2$ es la varianza de la señal original y $\sigma_s$ es la varianza de la señal pura que se estima con la siguiente ecuación:
+\begin{equation}
+\sigma_{sk}=\sqrt{max\left(\left(\frac{1}{size(H_k)}\sum_{y_i \in H_k}y_i^2\right) - \sigma_n^2,0\right)}
+\end{equation}
+Este algoritmo tiene como ventaja respecto a los anteriores que utiliza información de la señal a analizar pero es necesario conocer información de la imagen original (sin ruido).
+\subsubsection{NormalShrink}
+Este algoritmo suple la desventaja de BayesShrink ya que no se necesita información de la señal sin ruido y presenta todas las ventajas incorporadas de utilizar información de la señal a analizar. Se lo define como:
+\begin{equation}
+t_{normal} = \frac{\beta_k \sigma_n^2}{\sigma_s}
+\end{equation}
+Donde:
+\begin{equation}
+\beta_k=\sqrt{\frac{ln(size(H_k))}{J}}
+\end{equation}
+Y $\sigma_s$ es el desvio estandar de la señal de cada nivel. 
+\subsubsection{AWT(Adaptative Wavelet Treshholding}
+Por último, se presenta el algoritmo AWT el cual depende de la media aritmética y de la media geométrica de los coeficientes de la señal en cada nivel de análisis. Se lo define como:
+\begin{equation}
+t_{AWT}=c\sigma_n - |AM-GM|
+\end{equation}
+Donde $AM$ es la media aritmética, $GM$ es la media geométrica y $c=2^{J-j}$.
+
+
+%\section{Bibliografia}
+%\begin{itemize}
+%    \item http://servicio.bc.uc.edu.ve/ingenieria/revista/a16n1/art5.pdf
+%    \item https://www.researchgate.net/publication/271638415_Estudio_comparativo_de_tecnicas_de_reduccion_de_ruido_en_senales_industriales_mediante_Transformada_Wavelet_Discreta_y_seleccion_adaptativa_del_umbral
+%    \item https://cimat.repositorioinstitucional.mx/jspui/bitstream/1008/319/2/TE%20451.pdf
+%    \item http://catarina.udlap.mx/u_dl_a/tales/documentos/lem/hernandez_d_m/capitulo3.pdf
+%    \item https://pdf.sciencedirectassets.com/278653/1-s2.0-S1877705811X00115/1-s2.0-S1877705811022508/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQD7Mu%2BgITpyNvVbfnlTq9snIEnggYKA%2FqBKeqq8UDOHCAIgH9ECWbpp2nIc5vF2diHzFIUgyoRPDaCrhxwX0oozwSQqtAMIERADGgwwNTkwMDM1NDY4NjUiDJhCs2If2ny%2Bqm7KTyqRA%2BEeYz4kiSZtfi5eTW%2FwIYOWFQx92wORhyuKfpxlm2xDD9ln7e6Px9wrjXwzx2Hr5V2Rk3vvofJlHmKnxLUmz9wMJpITCa7%2Bw8V6NHJkN50nBldSe4mV4wDQxHvrg1ptyYK79wRuHhPPtKz8n%2BryaQjxf9sGffoNxnSahC2HyKO85tD%2FjsERa7j4fr%2BPslBxstPzBl3aWWhKcUJy%2B6tDpz%2BNyGwUBUcGyu%2FwipiaQCC%2BJCtDXLVPPcW6tMdyv7pPuXVNckgg%2BpNPk1GzBDvQ6oHzRQm90hDEeP12nTvYw7a8flbpiWI%2FGZ7uotr2dT0xhkr7Wn2TXVCH9HrvSUZAI%2Bzd%2FMEoXDGw1JjL%2BIEXy96ienlq%2Fnhsh4MwoL%2FqoG%2FvPUR3YcopcsTUlbN%2FNQxVpyZMcFFKyD%2BNPktTqZUztH%2FH5leTnHzZTihrdOwt1nuH9VrjdFLVytfhxONOdEM0xhP7%2BOo9W%2BTUSY81UQuywSIw8mSB38DxBs5YxMKN20h5yPp%2Bpmo5cMacQFQIiQ9NMvKFMI%2FksfcFOusBejApAqTkvRvTVkFAbR0QKNmYX966YjNTqvXFxKdyQcZJdqVVgh62uH22YppPpMo4NF8EAdEoxeG2%2BTOGNyejEStbR5EjQtWCPjaF0%2BEoe%2FRPxKwCDN3ucrUsMu0cMcsnVMXjoAoEIuFyW1fMl8zNsECZcIlMvIkxL4Fo40xwAz%2BeOW8iPDegRLrQkP8yrJ0csmyQ0n9%2BR9VQEZ6jLjOSCg79uzQhf65MSStIJD3KBFYeyTYcakGOpmcfU%2Bzw0EQwUK0iUbGv158hzBaw6N26SfBuXEdhmSsZehpvp0umVr%2FO3VS0hYqRllrWkw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200619T085726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY2YQE2O4F%2F20200619%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e61a54df0f892843e7a22247482e2d22ef1f6383defa6c047d0b50f6a5af3354&hash=9709537d72c55d02b41081fde253a60c9280ddf6505f5696ed24227c7561c6de&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877705811022508&tid=spdf-2dc93cef-8141-47c1-bfce-780564964774&sid=106d9d7b6e310043430847092ced793f66e2gxrqa&type=client
+%    \item http://what-when-how.com/embedded-image-processing-on-the-tms320c6000-dsp/wavelet-demising-image-processing-part-1/
+%\item https://www.ee.iitb.ac.in/~icvgip/PAPERS/202.pdf
+%\end{itemize}
 
 
 
