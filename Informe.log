@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.30)  18 JUN 2020 03:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.30)  19 JUN 2020 04:28
 entering extended mode
 **./Informe.tex
 (Informe.tex
@@ -437,8 +437,17 @@ d-pdfmode.def"
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count278
 \l__pdf_internal_box=\box51
+) (Informe.aux
+LaTeX Info: Redefining \. on input line 24.
+LaTeX Info: Redefining \% on input line 24.
+
+
+LaTeX Warning: Label `fig.a_b' multiply defined.
+
+
+LaTeX Warning: Label `ajk' multiply defined.
+
 )
-No file Informe.aux.
 \openout1 = `Informe.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -457,6 +466,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
+
 
 LaTeX Font Warning: Font shape `OT1/ptm/b/n' undefined
 (Font)              using `OT1/ptm/bx/n' instead on input line 17.
@@ -590,6 +600,7 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 17.
 LaTeX Info: Redefining \pageref on input line 17.
 LaTeX Info: Redefining \nameref on input line 17.
+ (Informe.out) (Informe.out)
 \@outlinefile=\write3
 \openout3 = `Informe.out'.
 
@@ -612,70 +623,79 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
 LaTeX Font Warning: Font shape `OT1/ptm/b/n' undefined
-(Font)              using `OT1/ptm/bx/n' instead on input line 31.
+(Font)              using `OT1/ptm/bx/n' instead on input line 39.
 
 
-LaTeX Warning: Reference `fig.a_b' on page 1 undefined on input line 31.
+LaTeX Warning: Reference `t-f' on page 1 undefined on input line 39.
 
+<Fig/t_f.png, id=12, 433.62pt x 489.32813pt>
+File: Fig/t_f.png Graphic file (type png)
+<use Fig/t_f.png>
+Package pdftex.def Info: Fig/t_f.png  used on input line 42.
+(pdftex.def)             Requested size: 258.0pt x 291.15758pt.
 
-LaTeX Font Warning: Font shape `OT1/ptm/b/n' undefined
-(Font)              using `OT1/ptm/bx/n' instead on input line 40.
-
-
-LaTeX Warning: Reference `fig.wavelets_madres' on page 1 undefined on input lin
-e 40.
-
-<Fig/Wavelets.png, id=3, 650.43pt x 504.88625pt>
-File: Fig/Wavelets.png Graphic file (type png)
-<use Fig/Wavelets.png>
-Package pdftex.def Info: Fig/Wavelets.png  used on input line 44.
-(pdftex.def)             Requested size: 258.0pt x 200.27145pt.
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 44--45
+Overfull \hbox (6.0pt too wide) in paragraph at lines 42--43
  [][] 
  []
 
-<Fig/a_b.png, id=4, 639.89063pt x 283.0575pt>
+
+Underfull \hbox (badness 1975) in paragraph at lines 47--49
+[]\OT1/ptm/m/sc/10 Esto no per-mi-te rea-li-zar un anali-sis en tiempo-
+ []
+
+<Fig/Wavelets.png, id=15, 650.43pt x 504.88625pt>
+File: Fig/Wavelets.png Graphic file (type png)
+<use Fig/Wavelets.png>
+Package pdftex.def Info: Fig/Wavelets.png  used on input line 52.
+(pdftex.def)             Requested size: 258.0pt x 200.27145pt.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 52--53
+ [][] 
+ []
+
+<Fig/a_b.png, id=16, 639.89063pt x 283.0575pt>
 File: Fig/a_b.png Graphic file (type png)
 <use Fig/a_b.png>
-Package pdftex.def Info: Fig/a_b.png  used on input line 51.
+Package pdftex.def Info: Fig/a_b.png  used on input line 59.
 (pdftex.def)             Requested size: 258.0pt x 114.12799pt.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 51--52
+Overfull \hbox (6.0pt too wide) in paragraph at lines 59--60
  [][] 
  []
 
 [1{C:/Users/Isaia/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
- <./Fig/Wavelets.png (PNG copy)> <./Fig/a_b.png>]
+ <./Fig/t_f.png>]
+<Fig/Tree.png, id=44, 544.28343pt x 517.935pt>
+File: Fig/Tree.png Graphic file (type png)
+<use Fig/Tree.png>
+Package pdftex.def Info: Fig/Tree.png  used on input line 148.
+(pdftex.def)             Requested size: 258.0pt x 245.50797pt.
 
-LaTeX Font Warning: Font shape `OT1/ptm/b/n' undefined
-(Font)              using `OT1/ptm/bx/n' instead on input line 87.
+Overfull \hbox (6.0pt too wide) in paragraph at lines 148--149
+ [][] 
+ []
 
 
-LaTeX Warning: Reference `Central' on page 2 undefined on input line 87.
+Underfull \hbox (badness 10000) in paragraph at lines 144--153
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 101.
-[2
+ []
 
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 101.
- (Informe.aux
+[2 <./Fig/Wavelets.png (PNG copy)> <./Fig/a_b.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 223.
+ [3 <./Fig/Tree.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 223.
+
+(Informe.aux
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 101.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 101.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 223.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 223.
+Package rerunfilecheck Info: File `Informe.out' has not changed.
+(rerunfilecheck)             Checksum: 6B22C495A581AC1889E749749FB7AE6D;101.
 
-
-Package rerunfilecheck Warning: File `Informe.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Informe.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  6B22C495A581AC1889E749749FB7AE6D;101.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -683,18 +703,18 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 101.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 223.
  ) 
 Here is how much of TeX's memory you used:
- 9333 strings out of 481556
- 148307 string characters out of 2913869
- 425435 words of memory out of 3000000
- 24425 multiletter control sequences out of 15000+200000
+ 9388 strings out of 481556
+ 149049 string characters out of 2913869
+ 428337 words of memory out of 3000000
+ 24454 multiletter control sequences out of 15000+200000
  536130 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,8n,46p,749b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,8n,46p,965b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Isaia/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmex10.pfb><C:/Users/Isaia/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmmi10.pfb><C:/Users/Isaia/AppData/Local/Programs/MiKTeX 2.9/f
@@ -707,9 +727,9 @@ sy10.pfb><C:/Users/Isaia/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
 msfonts/cm/cmsy7.pfb><C:/Users/Isaia/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Isaia/AppData/Local/Programs/M
 iKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on Informe.pdf (2 pages, 209421 bytes).
+Output written on Informe.pdf (3 pages, 367981 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 119 PDF objects out of 1000 (max. 8388607)
+ 33 named destinations out of 1000 (max. 500000)
+ 37 words of extra memory for PDF output out of 10000 (max. 10000000)
 

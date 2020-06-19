@@ -36,7 +36,15 @@ Por otro lado, la transformada de wavelet queda definida como:
 C_{f} (a,b) = \int_{-\infty}^{+\infty} x(t) \overline{\psi_{a,b} (t)} dt
 \end{equation}
 
-Donde $\psi_{a,b}(t)$ es la función que se utiliza para analizar a la señal $x(t)$ que se quiera estudiar. Realizando una analogía con Fourier, el trabajo que realiza $\psi_{a,b}(t)$, es análogo al de las exponenciales complejas $e^{- j \omega t}$. El resultado de esta transformada es una familia de coeficientes  $C_{f} (a,b)$ que representan de mejor manera la señal teniendo en cuenta la wavelet utilizada. Es notorio que el resultado es bidimensional ya que $a$ y $b$ son parámetros independientes. Donde $a$ esta relacionado con la frecuencia que posee la señal y $b$ nos brinda información del momento temporal que se analiza. Esto no permite realizar un analisis en tiempo-frecuencia como se mencionó anteriormente. 
+Donde $\psi_{a,b}(t)$ es la función que se utiliza para analizar a la señal $x(t)$ que se quiera estudiar. Realizando una analogía con Fourier, el trabajo que realiza $\psi_{a,b}(t)$, es análogo al de las exponenciales complejas $e^{- j \omega t}$. El resultado de esta transformada es una familia de coeficientes  $C_{f} (a,b)$ que representan de mejor manera la señal teniendo en cuenta la wavelet utilizada. Es notorio que el resultado es bidimensional ya que $a$ y $b$ son parámetros independientes. Donde $a$ esta relacionado con la frecuencia que posee la señal y $b$ nos brinda información del momento temporal que se analiza. Esto se entiende mejor al ver la figura \ref{t-f},donde el gráfico superior muestra como cambia la frecuencia de una señal en función de la traslación $b$, en especifico en $b_0$. Y el gráfico inferior muestra el resultado de la transformada, evidenciando en el tiempo $b_0$ el cambio de frecuencia.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/t_f}
+	\caption{Representación del resultado de transformada wavelet en relación a los coeficientes de traslación y escala}
+	\label{fig.a_b}
+\end{figure}
+
+Esto no permite realizar un análisis en tiempo-frecuencia como se mencionó anteriormente. 
 Cabe recalcar que existen diferentes tipos de wavelets madres, en la figura \ref{fig.wavelets_madres} se pueden ver las más utilizadas: 
 
 \begin{figure}[htb]
@@ -68,15 +76,17 @@ Para que esta función $\psi$ sea una wavelet, las funciones $\{\psi_{j,k}\}_{\{j
 Un análisis multiresolución para $L^{2}(\mathbb{R})$ consiste en una secuencia de subespacios cerrados de $L^{2}(\mathbb{R})$, $\{ V_{j} \}_{j \in \mathbb{Z} }$, y una función $\phi \in V_{0}$ tal que se cumplan las siguientes condiciones: 
 
 \begin{itemize}
-\item[i] Los espacios $V_{j}$ están anidados, es decir:
+\item[i.] Los espacios $V_{j}$ están anidados, es decir:
 
 \begin{equation*}
 ... \subset V_{-1} \subset V_{0} \subset V_{1} ...
 \end{equation*}
-\item[ii] $\overline{\cup _{j\in \mathbb Z}V_j} = L^2(\mathbb R)$ y $\cap {j\in \mathbb Z}V_j = {0}$
-
-
+\item[ii.] $\overline{\cup _{j\in \mathbb Z}V_j} = L^2(\mathbb R)$ y $\cap {j\in \mathbb Z}V_j = {0}$
+\item[iii.] Para todo $j \in \mathbb{Z}$, $V_{j-1}=D(V_j)$
+\item[iv.] $f \in V_0 \rightarrow T_kf \in V_o$, $\forall k \in \mathbb{Z}$
+\item[v.] $\{T_k \phi \}_{k \in \mathbb{Z}}$ es una base ortonormal de $V_0$
 \end{itemize} 
+
 
 Definimos a los espacios $V{j}$ como los espacios de aproximación. Por otro lado, definimos a $W_j$ como el complemento ortogonal de $V_j$ en $V_{j-1}$ esto nos permite plantear la siguiente relación:
 \begin{equation}
@@ -86,6 +96,7 @@ V_{j-1} = V_j \oplus W_j
 
 $W_j$ es llamado conjunto de detalle debido a que la proyección ortogonal de la señal en este espacio son los detalles y $V_j$ espacio de aproximación ya que la proyección ortogonal de la señal sobre este espacio son las aproximaciones. Esto nos permite reescribir la ecuación \ref{Central} como:
 \begin{equation}
+\label{NivApDet}
 A_{j-1}(t) = A_j(t) + D_j(t) 
 \end{equation} 
 Donde $A_j(t)$ se define como:
@@ -94,8 +105,119 @@ A_j(t)=\sum_{k \in \mathbb Z} \beta _{j,k} \phi _{j,k}(t)
 \end{equation}
 Donde:
 \begin{equation}
-\beta _{j,k}= <x(t), \phi _{j,k}(t)>= \int_\mathbb R x(t) \phi_{j,k}(t)dt
+\label{Beta}
+\beta _{j,k}= <x(t), \phi _{j,k}(t)>= \int_\mathbb R x(t) \overline{\phi_{j,k}(t)} dt
 \end{equation}
+Estos coeficientes  definen los promedios locales de la señal.
+Y $D_j(t)$ se define como:
+\begin{equation}
+D_j(t)=\sum_{k \in \mathbb Z} \alpha _{j,k} \phi _{j,k}(t)
+\end{equation}
+Donde:
+\begin{equation}
+\label{Alfa}
+\alpha _{j,k}= <x(t), \phi _{j,k}(t)>= \int_\mathbb R x(t) \overline{\phi_{j,k}(t})dt
+\end{equation}
+Y estos coeficientes se relacionan con la diferencia entre promedios locales sucesivos (fluctuaciones de la señal).
+%Discutir si poner la proposicion 1
+Para dar un cierre a la idea de multi-resolución se profundiza en la ecuación \ref{Central} que es el punto mas fuerte de esta técnica. Para esto la reescribimos de la siguiente manera:
+\begin{equation}
+V_J = V_K \oplus W_K \oplus ... \oplus W_{J+1}, \: J<K
+\end{equation}
+La cual expresa que podemos pasar de un nivel de resolución $J$ a cualquier nivel superior sumando los sucesivos detalles de los niveles inferiores. Es decir, la aproximación mejora a medida que el nivel $J$ decrece. También observamos que cualquier nivel de resolución $V_j$ se puede expresar como:
+\begin{equation}
+\label{NiveDet}
+V_J = \sum_{j=J+1}^{+\infty}W_j
+\end{equation}
+por lo tanto cualquier nivel es igual a la suma de sus infinitos detalles. Analogamente cualquier función puede ser expresada como una suma de infinitos detalles:
+\begin{equation}
+\label{NiveDet2}
+L^2(\mathbb{R})= \oplus _{j=-\infty}^{+\infty} W_j
+\end{equation}
+A partir de las ecuaciones \ref{NiveDet} y \ref{NiveDet2} se puede ver que:
+\begin{equation}
+L^2(\mathbb{R})=V_J \oplus (\oplus _{j=-\infty}^{J}W_j)
+\end{equation}
+Y finalmente como el espacio $V_j$ se relaciona con el espacio detalle $A_J(t)$ y el $W_j(t)$ con los espacios de detalles $D_j(t)$:
+\begin{equation}
+x(t) = A_J(t) + \sum_{j=-\infty}^{J}D_j(t)
+\end{equation}
+Por lo tanto, podemos definir a cualquier señal $x(t)$ como la suma de una aproximación, que vendría ser la parte mas ``burda'' de la señal, con sus infinitos detalles que serían ``toques finales''. Esto se observa en la figura \ref{Tree}, donde se utilizo una wavelet symmet 4 y 3 de niveles de descomposición. En rojo la señal original, en azul la aproximación y en verde las tres señales de detalle correspondientes.  
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/Tree}
+	\caption{Descomposición de nivel 3 de una señal utilizando una wavelet sym4}
+	\label{Tree}
+\end{figure}
+A partir de esta idea es sencillo imaginarse como la transformada de wavelet se aplica para eliminar el ruido de una señal. Si se busca una forma de filtrar estos coeficientes a partir de parámetros que se relacionan con el ruido de la señal se eliminarían las componentes no deseadas y a la hora de reconstruir la señal, con las componentes que sobreviven al filtro, se obtendría la versión sin ruido. Estos parámetros son llamados umbrales y se definirán mas adelante.\\ %Mejorar redacción
+
+Teniendo en mente la idea del filtrado y aun con el inconveniente de que el producto interno para calcular los coeficientes (ecuaciones \ref{Beta} y \ref{Alfa}) requiere un alto coste computacional, se plantea una estrategia basada en un algoritmo que relacione las bases ortonormales de wavelets y los bancos de filtros. Dicho algoritmo permite calcular los coeficientes $a^{j}$ y $d^{j}$ a partir de los coeficientes de aproximación de una escala anterior de resolución, es decir los $\alpha^{j-1}$,siendo estos los coeficientes que representan de manera perfecta la señal a analizar. Para llegar a esta relación se parte de la ecuación \ref{NivApDet} donde:
+%Explicar bancos de filtros o nombrarlo de otra forma
+
+\begin{equation}
+\label{Aj}
+A_j(t)=\sum_{k \in \mathbb Z}  a^{j}_{k} \phi _{j,k}(t)
+\end{equation} 
+\begin{equation}
+\label{Dj}
+D_j(t)=\sum_{k \in \mathbb Z}  d^{j}_{k} \psi _{j,k}(t)
+\end{equation} 
+con
+\begin{equation}
+\label{ajk}
+a^{j}_{k}= <A_{j}(t), \phi _{j,k}(t)>
+\end{equation}
+\begin{equation}
+\label{ajk}
+d^{j}_{k}= <A_{j}(t), \psi _{j,k}(t)>
+\end{equation}
+
+Si deseamos obtener $ a^{j}_{k}\: y\: d^{j}_{k}$ a partir de $A_{j-1}$, para ello realizamos el producto interno $A_{j-1}$ y la función de escala y wavelet 
+
+%Poner esto del producto interno? o directamente decir que operando llegamos a las ultimas dos ecuaciones?
+
+\begin{equation}
+<A_{j-1}(t),\psi _{j,k}(t)>=<A_{j}(t)+D_{j},\psi _{j,k}(t)>
+\end{equation}
+\begin{equation}
+<A_{j-1}(t),\phi _{j,k}(t)>=<A_{j}(t)+D_{j},\phi _{j,k}(t)>
+\end{equation}
+Operando matemáticamente (Ver anexo) llegamos a que:
+\begin{equation}
+a^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\psi _{j,k}(t)>=\sum_{p \in \mathbb Z}a^{j-1}_{p}\sqrt{2} a_{p-2k}
+\end{equation}
+\begin{equation}
+d^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\phi _{j,k}(t)>=\sum_{p \in \mathbb Z}a^{j-1}_{p}\sqrt{2} b_{p-2k}
+\end{equation}
+Que se asemeja a la sumatoria de convolución
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
