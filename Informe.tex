@@ -289,6 +289,28 @@ Donde $AM$ es la media aritmética, $GM$ es la media geométrica y $c=2^{J-j}$.
 %\end{itemize}
 
 
+\section{Desarrollo/implementacion}
+Para llevar a cabo el filtrado de ruido en imágenes se realizan los siguiente pasos:
+\begin{itemize}
+\item Agregar ruido a una imagen seleccionada: Se decide usar ruido gaussiano ya que este es el mas presente en todo tipo de señales.
+\item Se calcula el nivel optimo de descomposición según la wavelet elegida y la dimensión de la imagen: Si bien se puede elegir un nivel arbitrario de descomposición, el aumentarlo por encima del nivel optimo no mejora el resultado, ya que 
+\item iterar entre los pasos siguientes:
+\begin{itemize}
+\item Descomponer la imagen en sus matrices de detalles (horizontal,vertical y diagonal) y ¿aproximacion?.
+\item Filtrar los coeficientes de la matrices de detalle obtenidas en el paso anterior utilizando el método de umbralización con diferentes algoritmos y variando la familia de wavelet.
+\end{itemize}
+\item Reconstruir la imagen a partir de los coeficientes de detalle filtrados en los pasos previos y la matriz de aproximación.
+\end{itemize}
+
+\section{Objetivos}
+\begin{itemize}
+\item Explicar los conceptos teóricos de la transformada wavelet.
+\item Filtrar ruido de una imagen.
+\item Comparar los resultados para los diferentes algoritmos de umbrales y familias de wavelets.
+\item Comparar el filtrado por transformada de wavelet con otros metodos de filtrado de imágenes.
+\end{itemize}
+
+
 
 
 
