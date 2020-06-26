@@ -9,6 +9,10 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage[usenames]{color}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{mwe}
+%\usepackage{subfigure}
 \author{Gatica, Isaias \\ Martin, Santiago \\ Saez, Lautaro Ándres \\ Vidman, Xavier Harry}
 \title{Proyecto integrador DSP \\ Filtrado de ruido con transformada de wavelet}
 \providecommand{\abs}[1]{\lvert#1\rvert}
@@ -83,7 +87,6 @@ Un análisis multiresolución para $L^{2}(\mathbb{R})$ consiste en una secuencia d
 
 \begin{itemize}
 \item[i.] Los espacios $V_{j}$ están anidados, es decir:
-
 \begin{equation*}
 ... \subset V_{-1} \subset V_{0} \subset V_{1} ...
 \end{equation*}
@@ -456,21 +459,139 @@ Para llevar a cabo el filtrado de ruido en imágenes es necesario realizar los si
 \item[5)] Reconstruir la imagen a partir de los coeficientes de detalle filtrados en los pasos previos y la matriz de aproximación.
 \item[6)] Corroborar funcionamiento con imágenes con ruido no sintético.
 \end{itemize}
-
 \section{Resultados}
-A continuación, presentamos los resultados obtenidos para la siguientes imágenes de prueba:
-%agregar imagenes, label
+A continuación, presentamos los resultados obtenidos para la siguientes imágenes de prueba prensentadas en la figura \ref{noise-image}
+\begin{figure}
+        \centering
+        \begin{subfigure}[H]{0.2\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Fig/Lenna}
+            \caption[Lenna.]%
+           {{\small Lenna.}}    
+            \label{Lenna}
+        \end{subfigure}
+     %   \hfill
+        \begin{subfigure}[H]{0.2\textwidth}  
+            \centering 
+            \includegraphics[width=\textwidth]{Fig/House}
+            \caption[]%
+            {{\small House.}}    
+            \label{House}
+        \end{subfigure}
+        \vskip\baselineskip
+        \begin{subfigure}[H]{0.2\textwidth}   
+            \centering 
+            \includegraphics[width=\textwidth]{Fig/Wave}
+            \caption[]%
+            {{\small Wave.}}    
+            \label{Wave}
+        \end{subfigure}
+ 
+        \caption[ The average and standard deviation of critical parameters ]
+        {\small Imágenes de prueba escogidas.} 
+        \label{fig-imagenes-prueba}
+    \end{figure}
+%\begin{figure}[htb]
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  % include first image
+%  \includegraphics[width=.5\linewidth]{Fig/House}  
+%  \caption{House.}
+%  \label{fig:Noise-House}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  % include second image
+%  \includegraphics[width=.5\linewidth]{Fig/Wave}  
+%  \caption{Wave.}
+%  \label{fig:Noise-Wave}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  % include second image
+%  \includegraphics[width=.5\linewidth]{Fig/Lenna}  
+%  \caption{Lenna.}
+%  \label{fig:Noise-Lenna}
+%\end{subfigure}
+%\caption{Imagenes de prueba con el ruido.}
+%\label{noise-image}
+%\end{figure}
 
-Luego de pruebas con diferentes wavelet, algoritmos de umbralización y cantidad de niveles, se llego a que resultado se obtuvo con $agregar los mejores parametros$, obteniéndose las imágenes filtradas y reconstruidas.
+Todas se modificaron con un ruido gaussiano de $\sigma=0.3$.\\
+
+Luego de pruebas con diferentes wavelet, algoritmos de umbralización y cantidad de niveles, se llego a que el mejor resultado visual se obtuvo para:
+\begin{itemize}
+\item Wavelet=Sym4.
+\item Umbral=NormalShrink soft.
+\item Cantidad de niveles=6.
+\end{itemize}
+obteniéndose las siguientes imágenes filtradas y reconstruidas prensentadas en la figura:
 
 %agregar imagenes filtradas.
 
-Para corrobar este resultado presentamos las siguientes tablas comparativas de las distintas combinaciones de parámetros descritos en el item 4-iii en la sección \ref{asd} para las imágenes 
-$agregar label$ 
+Para corrobar este resultado presentamos las siguientes tablas comparativas de las distintas combinaciones de parámetros descritos en el item 4-iii en la sección \ref{asd} para las imágenes $agregar referencias$
 
 
 %agregar tablas
+\begin{table}[H]
+\centering 
+\begin{tabular}{lrrrrr}
+\toprule
+{imagen\textbackslash niveles} &  noise &      1 &      2 &      4 &      6 \\
+\midrule
+Lenna &  20.06 &  24.45 &  26.11 &  25.66 &  24.50 \\
+House &  20.06 &  22.35 &  22.69 &  21.79 &  21.02 \\
+Wave &  16.73 &  17.49 &  17.60 &  17.51 &  17.40 \\
+\bottomrule
+\end{tabular}
+\label{tabla-levels}
+\caption{Proporción máxima de señal a ruido utilizando wavelet Sym4, umbral normalshrink, metodo soft.}
+\end{table}
 
+\begin{table}[H]
+\centering 
+\begin{tabular}{lrrr}
+\toprule
+{imagen\textbackslash metodo } &  noise &   soft &   hard \\
+\midrule
+Lenna &  20.06 &  26.11 &  24.38 \\
+House &  20.06 &  22.69 &  22.14 \\
+Wave &  16.73 &  17.60 &  17.46 \\
+\bottomrule
+\end{tabular}
+\label{tabla-modos}
+\caption{Proporción máxima de señal a ruido utilizando wavelet Sym4,dos niveles de descomposición,umbral normalshrink.}
+\end{table}
+
+\begin{table}[H]
+\centering 
+\begin{tabular}{lrrrrrr}
+\toprule
+{imagen\textbackslash metodo} &  noise &  universal &  bayes &  level &  normal &    awt \\
+\midrule
+Lenna &  20.06 &      25.72 &  25.63 &  25.87 &   26.11 &  25.68 \\
+House &  20.06 &      22.31 &  22.24 &  22.39 &   22.69 &  22.32 \\
+wave &  16.73 &      17.56 &  17.55 &  17.57 &   17.60 &  17.56 \\
+\bottomrule
+\end{tabular}
+\label{tabla-umbrales}
+\caption{Proporción máxima de señal a ruido utilizando wavelet Sym4,dos niveles de descomposición,metodo soft.}
+\end{table}
+
+\begin{table}[H]
+\centering 
+\begin{tabular}{lrrrr}
+\toprule
+{imagen\textbackslash wavelet} &  noise &   haar &    db4 &   sym4 \\
+\midrule
+Lenna &  20.06 &  25.40 &  26.05 &  26.11 \\
+House &  20.06 &  22.14 &  22.68 &  22.69 \\
+Wave &  16.73 &  17.52 &  17.60 &  17.60 \\
+\bottomrule
+\end{tabular}
+\label{tabla-wavelets}
+\caption{Proporción máxima de señal a ruido utilizando dos niveles de descomposición,umbral normalshrink, método soft.}
+\end{table}
 
 
 
