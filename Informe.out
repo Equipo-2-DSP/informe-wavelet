@@ -1,8 +1,13 @@
-\BOOKMARK [1][-]{section.1}{Introducci\363n}{}% 1
-\BOOKMARK [1][-]{section.2}{Marco te\363rico}{}% 2
-\BOOKMARK [1][-]{section.3}{Umbrales}{}% 3
-\BOOKMARK [2][-]{subsubsection.3.0.1}{VisuShrink}{section.3}% 4
-\BOOKMARK [3][-]{subsubsection.3.0.2}{LevelShrink}{subsubsection.3.0.1}% 5
-\BOOKMARK [3][-]{subsubsection.3.0.3}{BayesShrink}{subsubsection.3.0.1}% 6
-\BOOKMARK [3][-]{subsubsection.3.0.4}{NormalShrink}{subsubsection.3.0.1}% 7
-\BOOKMARK [3][-]{subsubsection.3.0.5}{AWT\(Adaptative Wavelet Treshholding}{subsubsection.3.0.1}% 8
+\BOOKMARK [1][-]{section.1}{Objetivos}{}% 1
+\BOOKMARK [1][-]{section.2}{Introducci\363n}{}% 2
+\BOOKMARK [1][-]{section.3}{Marco te\363rico}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{An\341lisis multiresoluci\363n}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Umbrales}{section.3}% 5
+\BOOKMARK [3][-]{subsubsection.3.2.1}{VisuShrink}{subsection.3.2}% 6
+\BOOKMARK [3][-]{subsubsection.3.2.2}{LevelShrink}{subsection.3.2}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.3}{BayesShrink}{subsection.3.2}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.4}{NormalShrink}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.5}{AWT\(Adaptative Wavelet Treshholding\)}{subsection.3.2}% 10
+\BOOKMARK [1][-]{section.4}{Implementaci\363n}{}% 11
+\BOOKMARK [1][-]{section.5}{Resultados}{}% 12
+\BOOKMARK [1][-]{section.6}{Conclusiones}{}% 13

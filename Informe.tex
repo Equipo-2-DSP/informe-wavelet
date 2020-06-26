@@ -17,18 +17,26 @@
 \begin{document}
 \maketitle
 
+\section{Objetivos}
+\begin{itemize}
+\item Explicar los conceptos teóricos de la transformada wavelet.
+\item Filtrar ruido de una imagen.
+\item Comparar los resultados para los diferentes algoritmos de umbrales y familias de wavelets.
+\item Comparar el filtrado por transformada de wavelet con otros métodos de filtrado de imágenes.
+\end{itemize}
+
 \section{Introducción}
-En el siguiente informe estudiaremos los conceptos de las señales wavelets, transformada de wavelet, y como utilizarlos para filtrar ruido de señales unidimensionales y bidimensionales.
+En el siguiente informe estudiaremos los conceptos de las funciones wavelets, transformada de wavelet, y cómo utilizarlos para filtrar ruido de señales unidimensionales y bidimensionales. En nuestro caso, nos centramos en imágenes (dos dimensiones). Para el filtrado de ruido se hará un estudio de los umbrales más utilizados, con el fin de poder decidir qué umbral usar para la señal o imagen que se quiera estudiar. Como adelanto, el umbral es el parámetro que decide cómo se filtrarán los coeficientes que caracterizan a la imagen. 
 
 \section{Marco teórico}
-Una \textit{Wavelet} es una ``pequeña onda'' que tiene su energía concentrada en un período de tiempo determinado, son de duración definida, irregulares,lo que les permite 
+Una \textit{Wavelet} es una ``pequeña onda'' que tiene su energía concentrada en un período de tiempo determinado, son de duración definida e irregulares, lo que les permite 
 adaptarse y converger de mejor manera a la señal que se quiere analizar.
-Las familias de estas wavelet se definen como:
+Las familias de estas wavelet, también conocidas como ``wavelets madres", se definen como:
 \begin{equation}
     \label{WM}
-    \psi_{a,b}(t)= \frac{1}{\sqrt{a}} \psi(\frac{t-b}{a}) \quad a,b \in \mathbb{R} \quad ; a \not = 0. 
+    \psi_{a,b}(t)= \frac{1}{\sqrt{a}} \psi \left( \frac{t-b}{a} \right) \quad a,b \in \mathbb{R} \quad ; a \not = 0. 
 \end{equation}
-Donde $a$ y $b$ son los parámetros de escala y traslación respectivamente, se puede ver en la figura \ref{fig.a_b} como trabajan los parámetros $a$ y $b$. El parámetro $b$, asociado a la traslación, hace que la wavelet recorra a la señal $x(t)$ a través del tiempo. Mientras que el parámetro $a$, permite controlar el ancho de la wavelet.
+Donde $a$ y $b$ son los parámetros de escala y traslación respectivamente. Se puede ver en la figura \ref{fig.a_b} como trabajan los parámetros $a$ y $b$. El parámetro $b$, asociado a la traslación, hace que la wavelet recorra a la señal $x(t)$ a través del tiempo. Mientras que el parámetro $a$, permite controlar el ancho de la wavelet.
 
 Por otro lado, la transformada de wavelet queda definida como:
 
@@ -36,7 +44,8 @@ Por otro lado, la transformada de wavelet queda definida como:
 C_{f} (a,b) = \int_{-\infty}^{+\infty} x(t) \overline{\psi_{a,b} (t)} dt
 \end{equation}
 
-Donde $\psi_{a,b}(t)$ es la función que se utiliza para analizar a la señal $x(t)$ que se quiera estudiar. Realizando una analogía con Fourier, el trabajo que realiza $\psi_{a,b}(t)$, es análogo al de las exponenciales complejas $e^{- j \omega t}$. El resultado de esta transformada es una familia de coeficientes  $C_{f} (a,b)$ que representan de mejor manera la señal teniendo en cuenta la wavelet utilizada. Es notorio que el resultado es bidimensional ya que $a$ y $b$ son parámetros independientes. Donde $a$ esta relacionado con la frecuencia que posee la señal y $b$ nos brinda información del momento temporal que se analiza. Esto se entiende mejor al ver la figura \ref{t-f},donde el gráfico superior muestra como cambia la frecuencia de una señal en función de la traslación $b$, en especifico en $b_0$. Y el gráfico inferior muestra el resultado de la transformada, evidenciando en el tiempo $b_0$ el cambio de frecuencia.
+Donde $\psi_{a,b}(t)$ es la función que se utiliza para analizar a la señal $x(t)$ que se quiera estudiar. Realizando una analogía con Fourier, el trabajo que realiza $\psi_{a,b}(t)$, es análogo al de las exponenciales complejas $e^{- j \omega t}$. El resultado de esta transformada es una familia de coeficientes  $C_{f} (a,b)$ que representan de mejor manera la señal teniendo en cuenta la wavelet madre utilizada. Es notorio que el resultado es bidimensional ya que $a$ y $b$ son parámetros independientes. Donde $a$ está relacionado con la frecuencia que posee la señal y $b$ nos brinda información del momento temporal que se analiza. En la figura \ref{t-f} podemos verlo de mejor manera, donde el gráfico superior muestra cómo cambia la frecuencia de una señal en función de la traslación $b$, en específico en $b_0$. Y el gráfico inferior muestra el resultado de la transformada, evidenciando en el tiempo $b_0$ el cambio de frecuencia.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.5\textwidth]{Fig/t_f}
@@ -44,7 +53,7 @@ Donde $\psi_{a,b}(t)$ es la función que se utiliza para analizar a la señal $x(t
 	\label{fig.a_b}
 \end{figure}
 
-Esto no permite realizar un análisis en tiempo-frecuencia como se mencionó anteriormente. 
+Por lo tanto, el uso de wavelets nos permite realizar un análisis paulatino en tiempo y frecuencia como se mencionó anteriormente. 
 Cabe recalcar que existen diferentes tipos de wavelets madres, en la figura \ref{fig.wavelets_madres} se pueden ver las más utilizadas: 
 
 \begin{figure}[htb]
@@ -61,19 +70,16 @@ Cabe recalcar que existen diferentes tipos de wavelets madres, en la figura \ref
 	\label{fig.a_b}
 \end{figure}
 
-Debido a que los parámetros $a$ y $b$ pueden tomar infinitos valores se los limita utilizando el teorema de sampleo de Shanon para el cual:
-\begin{align*} 
-a=2\\ 
-b=1
-\end{align*}
-Obteniendo la siguiente expresión para la familia de wavelet:
+En este informe nos limitaremos a estudiar el caso en el que $a=2$ y $b=1$, obteniendo la siguiente expresión:
+
 \begin{equation}
 \psi_{j,k}(t) = 2^{-j/2} \psi (2^{-j}t-k)
 \end{equation}
-Para que esta función $\psi$ sea una wavelet, las funciones $\{\psi_{j,k}\}_{\{j,k\} \in \mathbb Z }$ deben formar una base ortonormal de $L^2(\mathbb R)$. Con el fin de explicar este requerimiento es necesario explicar un concepto llamado Analisis Multi-Resolucíon.
 
-\subsection*{Análisis Multi-Resolución}
-Un análisis multiresolución para $L^{2}(\mathbb{R})$ consiste en una secuencia de subespacios cerrados de $L^{2}(\mathbb{R})$, $\{ V_{j} \}_{j \in \mathbb{Z} }$, y una función $\phi \in V_{0}$ tal que se cumplan las siguientes condiciones: 
+Donde las funciones $\{\psi_{j,k}\}_{\{j,k\} \in \mathbb Z }$ forman una base ortonormal de $L^2(\mathbb R)$. Con el fin de explicar este requerimiento, es necesario explicar un concepto llamado \textbf{análisis multiresolución}.
+
+\subsection{\textbf{Análisis multiresolución}}
+Un análisis multiresolución para $L^{2}(\mathbb{R})$ consiste en una secuencia de subespacios cerrados de $L^{2}(\mathbb{R})$, $\{ V_{j} \}_{j \in \mathbb{Z} }$, y una función $\phi \in V_{0}$ tal que se cumplan las siguientes condiciones:
 
 \begin{itemize}
 \item[i.] Los espacios $V_{j}$ están anidados, es decir:
@@ -88,70 +94,93 @@ Un análisis multiresolución para $L^{2}(\mathbb{R})$ consiste en una secuencia d
 \end{itemize} 
 
 
-Definimos a los espacios $V{j}$ como los espacios de aproximación. Por otro lado, definimos a $W_j$ como el complemento ortogonal de $V_j$ en $V_{j-1}$ esto nos permite plantear la siguiente relación:
+Definimos a los espacios $V{j}$. Por otro lado, definimos a $W_j$ como el complemento ortogonal de $V_j$ en $V_{j-1}$, que permite plantear la siguiente relación:
 \begin{equation}
 \label{Central}
 V_{j-1} = V_j \oplus W_j
 \end{equation}
 
-$W_j$ es llamado conjunto de detalle debido a que la proyección ortogonal de la señal en este espacio son los detalles y $V_j$ espacio de aproximación ya que la proyección ortogonal de la señal sobre este espacio son las aproximaciones. Esto nos permite reescribir la ecuación \ref{Central} como:
+$W_j$ es llamado conjunto de \textbf{detalle} debido a que la proyección ortogonal de la señal en este espacio son los detalles, y $V_j$ espacio de \textbf{aproximación}, ya que la proyección ortogonal de la señal sobre este espacio son las aproximaciones. Con lo cual, podemos reescribir la ecuación \ref{Central} como:
+
 \begin{equation}
 \label{NivApDet}
 A_{j-1}(t) = A_j(t) + D_j(t) 
 \end{equation} 
-Donde $A_j(t)$ se define como:
+
+Donde $A_j(t)$ se define de la siguiente forma:
+
 \begin{equation}
 A_j(t)=\sum_{k \in \mathbb Z} \beta _{j,k} \phi _{j,k}(t)
 \end{equation}
+
 Donde:
+
 \begin{equation}
 \label{Beta}
 \beta _{j,k}= <x(t), \phi _{j,k}(t)>= \int_\mathbb R x(t) \overline{\phi_{j,k}(t)} dt
 \end{equation}
-Estos coeficientes  definen los promedios locales de la señal.
-Y $D_j(t)$ se define como:
+
+Estos coeficientes $\beta _{j,k}$ definen los promedios locales de la señal. Por otro lado, $D_j(t)$ se define a través de la siguiente expresión:
+
 \begin{equation}
 D_j(t)=\sum_{k \in \mathbb Z} \alpha _{j,k} \phi _{j,k}(t)
 \end{equation}
-Donde:
+
+Donde los coeficientes $\alpha _{j,k}$ se relacionan con la diferencia entre promedios locales sucesivos (fluctuaciones de la señal), y quedan definidos de la siguiente forma:
+
 \begin{equation}
 \label{Alfa}
 \alpha _{j,k}= <x(t), \phi _{j,k}(t)>= \int_\mathbb R x(t) \overline{\phi_{j,k}(t})dt
 \end{equation}
-Y estos coeficientes se relacionan con la diferencia entre promedios locales sucesivos (fluctuaciones de la señal).
+
+
 %Discutir si poner la proposicion 1
-Para dar un cierre a la idea de multi-resolución se profundiza en la ecuación \ref{Central} que es el punto mas fuerte de esta técnica. Para esto la reescribimos de la siguiente manera:
+Para dar un cierre a la idea de multiresolución se profundiza en la ecuación \ref{Central} que es el punto más fuerte de esta técnica. Sin más preámbulos, la reescribimos de la siguiente manera:
+
 \begin{equation}
 V_J = V_K \oplus W_K \oplus ... \oplus W_{J+1}, \: J<K
+\label{eq.Vj}
 \end{equation}
-La cual expresa que podemos pasar de un nivel de resolución $J$ a cualquier nivel superior sumando los sucesivos detalles de los niveles inferiores. Es decir, la aproximación mejora a medida que el nivel $J$ decrece. También observamos que cualquier nivel de resolución $V_j$ se puede expresar como:
+
+La ecuación \ref{eq.Vj} expresa que podemos pasar de un nivel de resolución $J$ a cualquier nivel superior sumando los sucesivos detalles de los niveles inferiores. Es decir, la aproximación mejora a medida que el nivel $J$ decrece. También observamos que cualquier nivel de resolución $V_j$ se puede expresar como:
+
 \begin{equation}
 \label{NiveDet}
 V_J = \sum_{j=J+1}^{+\infty}W_j
 \end{equation}
-por lo tanto cualquier nivel es igual a la suma de sus infinitos detalles. Analogamente cualquier función puede ser expresada como una suma de infinitos detalles:
+
+Por lo tanto cualquier nivel es igual a la suma de sus infinitos detalles. Análogamente cualquier función puede ser expresada como una suma de infinitos detalles:
+
 \begin{equation}
 \label{NiveDet2}
 L^2(\mathbb{R})= \oplus _{j=-\infty}^{+\infty} W_j
 \end{equation}
+
 A partir de las ecuaciones \ref{NiveDet} y \ref{NiveDet2} se puede ver que:
+
 \begin{equation}
 L^2(\mathbb{R})=V_J \oplus (\oplus _{j=-\infty}^{J}W_j)
 \end{equation}
-Y finalmente como el espacio $V_j$ se relaciona con el espacio detalle $A_J(t)$ y el $W_j(t)$ con los espacios de detalles $D_j(t)$:
+
+Finalmente, como el espacio $V_j$ se relaciona con el espacio detalle $A_J(t)$ y el $W_j(t)$ con los espacios de detalles $D_j(t)$:
+
 \begin{equation}
 x(t) = A_J(t) + \sum_{j=-\infty}^{J}D_j(t)
 \end{equation}
-Por lo tanto, podemos definir a cualquier señal $x(t)$ como la suma de una aproximación, que vendría ser la parte mas ``burda'' de la señal, con sus infinitos detalles que serían ``toques finales''. Esto se observa en la figura \ref{Tree}, donde se utilizo una wavelet symmet 4 y 3 de niveles de descomposición. En rojo la señal original, en azul la aproximación y en verde las tres señales de detalle correspondientes.  
+
+Por lo tanto, podemos definir a cualquier señal $x(t)$ como la suma de una \textbf{aproximación}, que vendría ser la parte más ``burda'' de la señal, con sus infinitos \textbf{detalles}, que serían ``toques finales''. Esto se observa en la figura \ref{Tree}, donde se utilizó una wavelet symmet 4 y 3 de niveles de descomposición. En rojo la señal original, en azul la aproximación y en verde las tres señales de detalle correspondientes.
+  
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=.5\textwidth]{Fig/Tree}
 	\caption{Descomposición de nivel 3 de una señal utilizando una wavelet sym4}
 	\label{Tree}
 \end{figure}
-A partir de esta idea es sencillo imaginarse como la transformada de wavelet se aplica para eliminar el ruido de una señal. Si se busca una forma de filtrar estos coeficientes a partir de parámetros que se relacionan con el ruido de la señal se eliminarían las componentes no deseadas y a la hora de reconstruir la señal, con las componentes que sobreviven al filtro, se obtendría la versión sin ruido. Estos parámetros son llamados umbrales y se definirán mas adelante.\\ %Mejorar redacción
 
-Teniendo en mente la idea del filtrado y aun con el inconveniente de que el producto interno para calcular los coeficientes (ecuaciones \ref{Beta} y \ref{Alfa}) requiere un alto coste computacional, se plantea una estrategia basada en un algoritmo que relacione las bases ortonormales de wavelets y los bancos de filtros. Dicho algoritmo permite calcular los coeficientes $a^{j}$ y $d^{j}$ a partir de los coeficientes de aproximación de una escala anterior de resolución, es decir los $\alpha^{j-1}$,siendo estos los coeficientes que representan de manera perfecta la señal a analizar. Para llegar a esta relación se parte de la ecuación \ref{NivApDet} donde:
+A partir de esta idea, vemos que es factible aplicar la transformada de wavelet para eliminar el ruido de una señal. Por lo tanto, si se busca una forma de filtrar los coeficientes a partir de parámetros relacionados con el ruido de la señal, se podrían eliminar las componentes no deseadas. Luego, a la hora de reconstruir la señal, se obtendría una versión sin ruido. Estos parámetros son llamados \textbf{umbrales} y se definirán más adelante.
+
+
+Teniendo en mente la idea del filtrado, y aún con el inconveniente de que el producto interno para calcular los coeficientes (ecuaciones \ref{Beta} y \ref{Alfa}) requiere un alto costo computacional, se plantea una estrategia basada en un algoritmo que relacione las bases ortonormales de wavelets y los bancos de filtros. Dicho algoritmo permite calcular los coeficientes $a^{j}$ y $d^{j}$ a partir de los coeficientes de aproximación de una escala anterior de resolución, es decir los $\alpha^{j-1}$, siendo estos los coeficientes que representan de manera perfecta la señal a analizar. Para llegar a esta relación se parte de la ecuación \ref{NivApDet} donde:
 %Explicar bancos de filtros o nombrarlo de otra forma
 
 \begin{equation}
@@ -172,80 +201,195 @@ a^{j}_{k}= <A_{j}(t), \phi _{j,k}(t)>
 d^{j}_{k}= <A_{j}(t), \psi _{j,k}(t)>
 \end{equation}
 
-Si deseamos obtener $ a^{j}_{k}\: y\: d^{j}_{k}$ a partir de $A_{j-1}$, para ello realizamos el producto interno $A_{j-1}$ y la función de escala y wavelet 
+Si deseamos obtener $ a^{j}_{k}\: y\: d^{j}_{k}$ a partir de $A_{j-1}$, realizamos el producto interno $A_{j-1}$ y la función de escala y wavelet 
 
 %Poner esto del producto interno? o directamente decir que operando llegamos a las ultimas dos ecuaciones?
 
 \begin{equation}
 <A_{j-1}(t),\psi _{j,k}(t)>=<A_{j}(t)+D_{j},\psi _{j,k}(t)>
 \end{equation}
+
 \begin{equation}
 <A_{j-1}(t),\phi _{j,k}(t)>=<A_{j}(t)+D_{j},\phi _{j,k}(t)>
 \end{equation}
+
 Operando matemáticamente (Ver anexo) llegamos a que:
+
 \begin{equation}
 a^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\psi _{j,k}(t)>=\sum_{p \in \mathbb Z}a^{j-1}_{p}\sqrt{2} a_{p-2k}
 \end{equation}
+
 \begin{equation}
 d^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p}<\psi _{j-1,p}(t),\phi _{j,k}(t)>=\sum_{p \in \mathbb Z}a^{j-1}_{p}\sqrt{2} b_{p-2k}
 \end{equation}
-Que se asemeja a la sumatoria de convolución
+
+Donde:
+
+\begin{equation}
+	\sqrt{2} a_{p-2k}=<\phi _{j-1,p}(t),\phi _{j,k}(t)>
+\end{equation}
+	
+\begin{equation}
+	\sqrt{2} b_{p-2k}=<\phi _{j-1,p}(t),\psi _{j,k}(t)>
+\end{equation}
 
 
+Se observa que estos coeficientes son productos internos de funciones ya conocidas, la función wavelet y su función de escala. Estos valores ya fueron calculados y se los asume como conocidos, por lo cual si los consideramos como los coeficientes de filtros podemos definir a $LoD=\{[LoD]_{n}\}_{n \in \mathbb{Z}}$ y a $HiD=\{[Hid]_{n}\}_{n \in \mathbb{Z}}$ como el filtro pasabajos y un filtro pasaaltos respectivamente.
 
 
+Por lo cual:
+
+\begin{equation}
+[LoD]_{n}=\sqrt{2}  a_{-n}
+\end{equation}
+
+\begin{equation}
+[HiD]_{n}=\sqrt{2}  b_{-n}
+\end{equation}
+
+Quedando entonces definidos nuestros coeficientes en un nivel j como:
+
+\begin{equation}
+\label{afinal}
+a^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p} [LoD]_{2k-p}
+\end{equation}
+
+\begin{equation}
+\label{dfinal}
+d^{j}_{k}=\sum_{p \in \mathbb Z} a^{j-1}_{p} [HiD]_{2k-p}
+\end{equation}
+
+Estos coeficientes presentan un aspecto muy similar a la suma de convolución entre el coeficiente del nivel anterior con el filtro correspondiente. Para que esta sea la convolución se introduce la operación de submuestreo, definida como:
+
+\begin{equation}
+\label{dec}
+y=dec(x)\Leftrightarrow y_{n}=x_{2n} \forall n \in \mathbb Z
+\end{equation}
+
+usando las ecuaciones \ref{afinal}, \ref{dfinal}, \ref{dec} y la convolución llegamos a:
+
+\begin{equation}
+a^{j}=dec(a^{j-1}\ast LoD)
+\end{equation}
+\begin{equation}
+d^{j}=dec(a^{j-1}\ast HiD)
+\end{equation}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/bancofiltros1D}
+	\caption{Descomposición con banco de filtros para 1D}
+	\label{bancofiltros1D}
+\end{figure}
+
+%agregar la imagen de los bloques 
+Lo que nos permite ver que cada señal se descompone en 2 señales, la de aproximación y detalle de la mitad de la dimension de la señal original.
 
 
+Es posible demostrar que se puede realizar proceso inverso y reconstruir la señal aproximada, de la misma manera en que se descompuso, la suma de señales convolucionadas con filtros pasabajos y pasaaltos, matemáticamente se puede ver en la siguiente expresión:
 
 
+\begin{equation}
+a^{j-1}_{k}=\sum_{p \in \mathbb Z} a^{j}_{p}[LoR]_{k-2p}+\sum_{p \in \mathbb Z} d^{j}_{p}[HiR]_{k-2p}
+\end{equation}
 
 
+Donde LoR y HiR son los filtros pasabajos y pasaaltos de reconstrucción.
 
 
-\section{Umbrales}
-Como se menciona anteriormente, es necesaria determinar parámetros llamados umbrales para realizar el filtrado de los coeficientes. Con el fin de 
-seguir la nomeclatura utilizada en la bibliografia aplicada, a este método se lo denominará umbralización. La umbralización tiene dos características importantes a definir,
-el tipo de umbralización y las distintas forma de calcular el valor del umbral. En la figura \ref{Umbral} se observa los tipos de umbralización hard y soft, y el valor del umbral esta 
-notado con $\tau$. El tipo de umbralización dura (hard) anula todos los coeficientes que estén en el rango $[-\tau,\tau]$ y no modifica el resto. Lo mismo cumple el umbralizado suave (soft) 
+Como mencionamos anteriormente, las señales $a^{j} yd^{j}$ tienen una dimension menor a la original que se desea reconstruir, por lo que es necesaria ``rellenarlas" para que tengan la dimension correcta.
+
+
+%agregar imagen de bloque de reconstruccion.
+
+Este desarrollo lo podemos extender a dos dimensiones, permitiendo descomponer a las imágenes en cuatro señales diferentes que corresponden a las señales de aproximación y una descomposición de señales de detalles, una para detalles horizontales, verticales y diagonales. Lo mencionado se visualiza en la figura \ref{bancofiltros}.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/bancofiltros}
+	\caption{Descomposición con banco de filtros para 2D}
+	\label{bancofiltros}
+\end{figure}
+
+Donde las matrices finales representan:
+\begin{itemize}
+\item LL representa la aproximacion.
+\item LH representa los detalles verticales.
+\item HL representa los detalles horizontales.
+\item HH representa los detalles diagonales.
+\end{itemize}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Fig/bancofiltrosR}
+	\caption{Recomposición con banco de filtros para 2D}
+	\label{bancofiltrosR}
+\end{figure}
+
+
+\subsection{\textbf{Umbrales}}
+Como dijimos anteriormente, es necesario determinar parámetros para realizar el filtrado de los coeficientes. Estos parámetros se denominan \textbf{umbrales}. Con el fin de seguir la nomenclatura utilizada en la bibliografía aplicada, a este método se lo denominará umbralización. La umbralización tiene dos características importantes a definir:
+el tipo de umbralización y las distintas forma de calcular el valor del umbral. En la figura \ref{Umbral} observamos los tipos de umbralización \textbf{hard} y \textbf{soft}. El valor del umbral se encuentra 
+notado con $\tau$. El tipo de umbralización \textbf{hard} anula todos los coeficientes que estén en el rango $[-\tau,\tau]$ y no modifica el resto. Lo mismo cumple el umbralizado \textbf{soft}
 con la diferencia que los coeficientes fuera de este rango se ven reducidos linealmente. El tipo hard reproduce de 
 mejor forma los picos y discontinuidades si se piensa una señal en una dimensión, o por ejemplo, los bordes si se piensa en imágenes. Por otro lado, el tipo soft genera 
 resultados mas suaves en la aproximación de la señal, lo que es satisfactorio si no se busca un resultado discontinuo. En las imágenes este método genera un efecto de 
 difuminado justamente para suavizar el resultado final. \\ %Ver redacción y mejorar imagen
 
-\begin{figure}[htb]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=.5\textwidth]{Fig/Umbral}
 	\caption{Tipos de umbralización más utilizados}
 	\label{Umbral}
 \end{figure}
 
-Ahora, para el cálculo del umbral $\lambda$ existen distintos algoritmos de los cuales se desarrollan los siguientes:
-\subsubsection{VisuShrink}
-Este algoritmo, mas conocido como umbral universal se calcula con la siguiente ecuación:
+Ahora, para el cálculo del umbral $\lambda$ existen distintos tipos de algoritmos. En este informe se estudiarán los  siguientes:
+
+\begin{itemize}
+\item VisuShrink.
+\item LevelShrink.
+\item BayesShrink.
+\item NormalShrink.
+\item AWT(Adaptative Wavelet Treshholding).
+\end{itemize}
+
+$ \\ $
+
+\subsubsection{\textbf{VisuShrink}} 
+
+este algoritmo, más conocido como umbral universal se calcula con la siguiente ecuación:
 \begin{equation}
     t_{univ}=\sigma_n \sqrt{2ln(n)}
 \end{equation}
 Donde $\sigma$ es la varianza del ruido y $n$ es la dimensión de la señal. Esta ecuación se deriva a partir de que es conocido que el máximo valor de una señal que
-siga una distribución gaussiana con media cero y varianza $\sigma^2$ ,$(x \thicksim N(0,\sigma^2))$ va ser menor que el valor $\sigma_n \sqrt{2log(n)}$ con una probabilidad 
-que tiene a uno cuando $n$ tiene a infinito. Por lo tanto, este umbral igualara a cero los coeficientes que presenten ruido puro con una alta probabilidad. La simpleza del 
+siga una distribución gaussiana con media cero y varianza $\sigma^2$ ,$(x \thicksim N(0,\sigma^2))$ va a ser menor que el valor $\sigma_n \sqrt{2log(n)}$ con una probabilidad 
+que tiene a uno cuando $n$ tiene a infinito. Por lo tanto, este umbral igualará a cero los coeficientes que presenten ruido puro con una alta probabilidad. La simpleza del 
 algoritmo lo hace de los mas utilizados, sin embargo al solo tener en cuenta las características del ruido y de la dimensión de la 
-imagen suele suavizar mucho la imagen. Esto se debe a que elimina muchos coeficientes de informacíon útil al intentar 
+imagen suele suavizar mucho la imagen. Esto se debe a que elimina muchos coeficientes de información útil al intentar 
 eliminar el ruido presente.\\
-Antes de continuar con el siguiente umbral, cabe mencionar porque los umbrales depende de la dimensión de la señal. Es intuitivo que el umbral dependa 
-de la varianza del ruido pero no tan asi que dependa de la dimensión, esto se debe a que mientras mayor sea la dimensión aumenta la redundancia de la señal. Por lo tanto hay menos 
+Antes de continuar con el siguiente umbral, es necesario mencionar dos aspectos importantes, el primero de ellos es por qué los umbrales dependen de la dimension de la señal. Esto se debe a que mientras mayor sea la dimensión aumenta la redundancia de la señal. Por lo tanto, hay menos 
 información nueva (al aumentar la dimensión) que la información de base. Desde el punto de vista de wavelet, esto no genera que se aumenten 
-los coeficientes importantes. Por lo tanto existe una relación proporcional entre los coeficientes de ruido y la dimensión de la señal, lo que implica la necesidad
-de agregarlo al cálculo del umbral. 
-\subsubsection{LevelShrink}
-A raíz de que el algoritmo VisuShrink aplicada el mismo umbral a cada nivel de descomposición se introduce el método LevelShrink que depende 
-de la escala de cada nivel:
+los coeficientes importantes. Por consecuente, existe una relación proporcional entre los coeficientes de ruido y la dimensión de la señal, lo que implica la necesidad
+de agregarlo al cálculo del umbral. \\
+Y como segundo aspecto de importancia para la estimación de la varianza de ruido de la imágenes se utilizan los coeficientes de mayor frecuencia que son los que presentan mayor energía de ruido. Estos coefiecientes quedan representandos en las matrices de detalle diagonal, ya que si recordamos la figura \ref{bancofiltros} podemos ver que la matriz de detalle diagonal se forma luego de filtrar dos veces la señal con un filtro pasaalto.
+
+%agregar imagen de que la diagonal es una weea.
+$ \\ $
+
+\subsubsection{\textbf{LevelShrink}}
+este umbral depende de la escala de nivel, a diferencia de VisuShrink, que aplica el mismo umbral a cada nivel de descomposición. Su expresión es la siguiente:
+
 \begin{equation}
     t_{level}=\sigma_n \sqrt{2ln(n)} 2^{-(J-j)/2}
 \end{equation}
-Donde $J$ es el número total de niveles de descomposición y $j$ el nivel particular. Si bien esto genera un umbral que se adapta de mejor 
-manera, sigue sin tener en cuenta los detalles de la señal a analizar.
-\subsubsection{BayesShrink}
-Este umbral tiene como base minimizar la inferencia bayesiana y sus ecuaciones son:
+Donde $J$ es el número total de niveles de descomposición y $j$ el nivel correspondiente. Si bien esto genera un umbral que se adapta de mejor manera, sigue sin tener en cuenta los detalles de la señal a analizar.
+
+$ \\ $
+
+\subsubsection{\textbf{BayesShrink}}
+la base de este umbral es minimizar la inferencia bayesiana. Sus ecuaciones son:
 \begin{equation}
      t_{bayes} = \left\{
 	       \begin{array}{ll}
@@ -255,12 +399,17 @@ Este umbral tiene como base minimizar la inferencia bayesiana y sus ecuaciones s
 	     \right.
 \end{equation}
 Donde $\sigma_n^2/\sigma_s$ es la varianza del ruido, $\sigma_y^2$ es la varianza de la señal original y $\sigma_s$ es la varianza de la señal pura que se estima con la siguiente ecuación:
+
 \begin{equation}
 \sigma_{sk}=\sqrt{max\left(\left(\frac{1}{size(H_k)}\sum_{y_i \in H_k}y_i^2\right) - \sigma_n^2,0\right)}
 \end{equation}
+
 Este algoritmo tiene como ventaja respecto a los anteriores que utiliza información de la señal a analizar pero es necesario conocer información de la imagen original (sin ruido).
-\subsubsection{NormalShrink}
-Este algoritmo suple la desventaja de BayesShrink ya que no se necesita información de la señal sin ruido y presenta todas las ventajas incorporadas de utilizar información de la señal a analizar. Se lo define como:
+
+$ \\ $
+
+\subsubsection{\textbf{NormalShrink}}
+este algoritmo suple la desventaja de BayesShrink ya que no se necesita información de la señal sin ruido y presenta todas las ventajas incorporadas de utilizar información de la señal a analizar. Se lo define como:
 \begin{equation}
 t_{normal} = \frac{\beta_k \sigma_n^2}{\sigma_s}
 \end{equation}
@@ -268,14 +417,70 @@ Donde:
 \begin{equation}
 \beta_k=\sqrt{\frac{ln(size(H_k))}{J}}
 \end{equation}
-Y $\sigma_s$ es el desvio estandar de la señal de cada nivel. 
-\subsubsection{AWT(Adaptative Wavelet Treshholding}
-Por último, se presenta el algoritmo AWT el cual depende de la media aritmética y de la media geométrica de los coeficientes de la señal en cada nivel de análisis. Se lo define como:
+Y $\sigma_s$ es el desvío estándar de la señal de cada nivel.
+
+$ \\ $
+
+\subsubsection{\textbf{AWT(Adaptative Wavelet Treshholding)}}
+por último, presentamos el algoritmo AWT el cual depende de la media aritmética y de la media geométrica de los coeficientes de la señal en cada nivel de análisis. Se lo define como:
 \begin{equation}
 t_{AWT}=c\sigma_n - |AM-GM|
 \end{equation}
 Donde $AM$ es la media aritmética, $GM$ es la media geométrica y $c=2^{J-j}$.
 
+
+
+\section{Implementación}
+Para llevar a cabo el filtrado de ruido en imágenes es necesario realizar los siguiente pasos:
+
+\begin{itemize}
+\item[1)] Agregar ruido a una imagen seleccionada. En los ejemplos que mostraremos, utilizaremos ruido gaussiano ya que es el más presente en todo tipo de señales.
+\item[2)] Acondicionar la imagen para que sea cuadrada.
+\item[3)] Calcular el nivel óptimo de descomposición según la wavelet elegida, y la dimensión de la imagen. Si bien podemos elegir un nivel arbitrario de descomposición, aumentarlo por encima del nivel óptimo no mejora el resultado. Esto solo produce un filtrado de la información útil de la imagen, suavizando los detalles.
+\item[4)] Iterar entre los siguientes pasos:
+
+\begin{itemize}
+\label{asd}
+\item[i.] Descomponer la imagen en sus matrices de detalle (horizontal,vertical y diagonal).
+\item[ii.] Calcular el desvío estándar del ruido a partir de la matriz de detalle diagonal para cada nivel.
+
+\item[iii.] Filtrar los coeficientes de la matrices de detalle obtenidas en el paso i., variando alguno de los siguientes parámetros:
+	\begin{itemize}
+	\item Tipo de umbralización : hard o soft.
+	\item Algoritmos de umbralización. 
+	\item Cantidad de niveles de descomposición.
+	\item Tipo de wavelet.
+	\end{itemize}
+\end{itemize}
+
+\item[5)] Reconstruir la imagen a partir de los coeficientes de detalle filtrados en los pasos previos y la matriz de aproximación.
+\item[6)] Corroborar funcionamiento con imágenes con ruido no sintético.
+\end{itemize}
+
+\section{Resultados}
+A continuación, presentamos los resultados obtenidos para la siguientes imágenes de prueba:
+%agregar imagenes, label
+
+Luego de pruebas con diferentes wavelet, algoritmos de umbralización y cantidad de niveles, se llego a que resultado se obtuvo con $agregar los mejores parametros$, obteniéndose las imágenes filtradas y reconstruidas.
+
+%agregar imagenes filtradas.
+
+Para corrobar este resultado presentamos las siguientes tablas comparativas de las distintas combinaciones de parámetros descritos en el item 4-iii en la sección \ref{asd} para las imágenes 
+$agregar label$ 
+
+
+%agregar tablas
+
+
+
+
+
+Con el fin de verificar el funcionamiento del filtrado con imágenes reales (es decir que el ruido presente en ellas no se agrego artificialmente), se filtraron las siguientes imágenes 
+%agregar imagenes $
+Los resultados obtenidos para los siguientes parametros $agregar parametros$ son :
+%agregar imagenes
+
+\section{Conclusiones}
 
 %\section{Bibliografia}
 %\begin{itemize}
@@ -286,6 +491,7 @@ Donde $AM$ es la media aritmética, $GM$ es la media geométrica y $c=2^{J-j}$.
 %    \item https://pdf.sciencedirectassets.com/278653/1-s2.0-S1877705811X00115/1-s2.0-S1877705811022508/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQD7Mu%2BgITpyNvVbfnlTq9snIEnggYKA%2FqBKeqq8UDOHCAIgH9ECWbpp2nIc5vF2diHzFIUgyoRPDaCrhxwX0oozwSQqtAMIERADGgwwNTkwMDM1NDY4NjUiDJhCs2If2ny%2Bqm7KTyqRA%2BEeYz4kiSZtfi5eTW%2FwIYOWFQx92wORhyuKfpxlm2xDD9ln7e6Px9wrjXwzx2Hr5V2Rk3vvofJlHmKnxLUmz9wMJpITCa7%2Bw8V6NHJkN50nBldSe4mV4wDQxHvrg1ptyYK79wRuHhPPtKz8n%2BryaQjxf9sGffoNxnSahC2HyKO85tD%2FjsERa7j4fr%2BPslBxstPzBl3aWWhKcUJy%2B6tDpz%2BNyGwUBUcGyu%2FwipiaQCC%2BJCtDXLVPPcW6tMdyv7pPuXVNckgg%2BpNPk1GzBDvQ6oHzRQm90hDEeP12nTvYw7a8flbpiWI%2FGZ7uotr2dT0xhkr7Wn2TXVCH9HrvSUZAI%2Bzd%2FMEoXDGw1JjL%2BIEXy96ienlq%2Fnhsh4MwoL%2FqoG%2FvPUR3YcopcsTUlbN%2FNQxVpyZMcFFKyD%2BNPktTqZUztH%2FH5leTnHzZTihrdOwt1nuH9VrjdFLVytfhxONOdEM0xhP7%2BOo9W%2BTUSY81UQuywSIw8mSB38DxBs5YxMKN20h5yPp%2Bpmo5cMacQFQIiQ9NMvKFMI%2FksfcFOusBejApAqTkvRvTVkFAbR0QKNmYX966YjNTqvXFxKdyQcZJdqVVgh62uH22YppPpMo4NF8EAdEoxeG2%2BTOGNyejEStbR5EjQtWCPjaF0%2BEoe%2FRPxKwCDN3ucrUsMu0cMcsnVMXjoAoEIuFyW1fMl8zNsECZcIlMvIkxL4Fo40xwAz%2BeOW8iPDegRLrQkP8yrJ0csmyQ0n9%2BR9VQEZ6jLjOSCg79uzQhf65MSStIJD3KBFYeyTYcakGOpmcfU%2Bzw0EQwUK0iUbGv158hzBaw6N26SfBuXEdhmSsZehpvp0umVr%2FO3VS0hYqRllrWkw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200619T085726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY2YQE2O4F%2F20200619%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e61a54df0f892843e7a22247482e2d22ef1f6383defa6c047d0b50f6a5af3354&hash=9709537d72c55d02b41081fde253a60c9280ddf6505f5696ed24227c7561c6de&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877705811022508&tid=spdf-2dc93cef-8141-47c1-bfce-780564964774&sid=106d9d7b6e310043430847092ced793f66e2gxrqa&type=client
 %    \item http://what-when-how.com/embedded-image-processing-on-the-tms320c6000-dsp/wavelet-demising-image-processing-part-1/
 %\item https://www.ee.iitb.ac.in/~icvgip/PAPERS/202.pdf
+%\item https://docplayer.net/163633874-Comprehensive-analysis-on-the-effects-of-noise-estimation-strategies-on-image-noise-artifact-suppression-performance.html
 %\end{itemize}
 
 
